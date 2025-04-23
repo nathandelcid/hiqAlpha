@@ -3,9 +3,21 @@ from fastapi import FastAPI
 from mcp_agent.core.fastagent import FastAgent
 from pydantic import BaseModel
 from typing import Dict, List
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class ToolInfo(BaseModel):
     name: str
     description: str
@@ -33,9 +45,6 @@ async def mcp_agent():
 async def start_application():
     await fast.start_server(
         transport="sse",
-        host="0.0.0.0",
-        server_name="API-Agent-Server",
-        server_description="Provides API access to my agent"
     )
 
 if __name__ == "__main__":
