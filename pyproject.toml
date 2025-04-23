@@ -1,0 +1,24 @@
+[project]
+name = "fastapi-render"
+version = "0.1.0"
+description = "Example of FastAPI deployment to render.com"
+authors = [{ name = "Jose Haro Peralta", email = "jose@microapis.io" }]
+requires-python = "~=3.10"
+dependencies = [
+    "fastapi>=0.115.6",
+    "uvicorn>=0.29.0,<0.30",
+    "sqlalchemy>=2.0.31,<3",
+    "psycopg>=3.2.1,<4",
+    "fast-agent-mcp==0.2.17",
+    "pydantic==2.11.3",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["fastapi_render"]
+
+[tool.hatch.build.targets.wheel]
+include = ["fastapi_render"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
