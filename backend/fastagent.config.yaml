@@ -25,7 +25,7 @@ logger:
     # Show chat User/Assistant messages on the console
     show_chat: true
     # Show tool calls on the console
-    show_tools: true
+    show_tools: false
     # Truncate long tool responses on the console 
     truncate_tools: true
 
