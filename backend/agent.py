@@ -1,23 +1,27 @@
-import asyncio
+import uvicorn
+from fastapi import FastAPI
+from pydantic import BaseModel
 from mcp_agent.core.fastagent import FastAgent
 
-fast = FastAgent("fast-agent")
+class PromptRequest(BaseModel):
+    prompt: str
+
+app = FastAPI()
+
+fast = FastAgent("hIqAgent")
 
 @fast.agent(
-    "ableton_mcp",
+    "hiq-mcp",
     instruction = "You are Maestro, a helpful music producing assistant developed by Harmoniq",
     servers = ["HarmoniqMCP"]
 )
-
-async def mcp_agent():
+   
+@app.post("/chat")
+async def chat(request: PromptRequest):
     async with fast.run() as agent:
-        await agent()
-
-async def start_application():
-    await fast.start_server(
-        transport="sse",
-        # port=8080
-    )
+        user_message = request.prompt
+        response_text = await agent.send(user_message)
+        return {"response": response_text}
 
 if __name__ == "__main__":
-    asyncio.run(start_application())
+    uvicorn.run(app, host="0.0.0.0", port=8080)
